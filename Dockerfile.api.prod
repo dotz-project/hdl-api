@@ -1,0 +1,18 @@
+FROM marcosmborges/yii2:version2 AS build
+
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_HOST=35.198.0.194
+ENV MYSQL_DATABASE=yii2-starter-kit
+ENV MYSQL_USER=ysk_dbu
+ENV MYSQL_PASSWORD=ysk_pass
+ENV MEMCACHED_HOST_1=10.55.255.158
+ENV MEMCACHED_PORT_1=11211
+
+COPY ./ /app
+
+WORKDIR /app
+
+RUN composer install
+RUN yii migrate --migrationPath=vendor/yiisoft/yii2/rbac/migrations/ --interactive=0
+RUN yii migrate/up --interactive=0
+

@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="./ClaroAdm/materials/materials.css">
+<div class="mb-50">
+    <h2>Materiais</h2>
+    <div class="panel panel-danger p-10" ng-repeat="material in materials">
+        <button class="m-10 pull-right btn btn-danger" type="button" ng-click="methods.modalShare(material)"><i class="fas fa-share-square"></i></button>
+        <h2 ui-sref="detailMaterial({id:material.id})" class="pointer" ng-bind="material.title"></h2>
+        <p ng-bind="material.description"></p>
+        <p ng-bind="'Ativado em '+'{{material.created_at | amUtc | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}'"></p>
+        <p ng-bind="'Início em '+'{{material.started_at | amUtc | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}'"></p>
+        <p ng-bind="'Término em '+'{{material.expired_at | amUtc | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}'"> </p>
+    </div>
+    <button class="btn btn-danger" ng-click="methods.more()">Carregar Mais</button>
+</div>
+<div id="modalShare" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form name="share" novalidate ng-submit="methods.confirmArea(shared)">
+                    <div class="form-group">
+                        <label>Nome:</label>
+                        <input type="text" name="firstname" class="form-control" ng-model="shared.firstname" required>
+                        <span ng-show="(share.firstname.$touched || submitted) && share.firstname.$invalid">Nome obrigatório</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Sobrenome:</label>
+                        <input type="text" name="lastname" class="form-control" ng-model="shared.lastname" required>
+                        <span ng-show="(share.lastname.$touched || submitted) && share.lastname.$invalid">Sobrenome obrigatório</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="text" name="email" class="form-control" ng-model="shared.email" required>
+                        <span ng-show="(share.email.$touched || submitted) && share.email.$invalid">Email obrigatório</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Compartilhar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

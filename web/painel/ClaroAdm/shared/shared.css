@@ -1,0 +1,19 @@
+.add-sheet i{
+    font-size: 60px;
+    color:rgb(85.5%, 85.5%, 85.5%);
+}
+.add-sheet i:hover{
+    color:rgb(66.7%, 66.7%, 66.7%)
+}
+.thumb-material{
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    float: left;
+}
+.box-image{
+    height: 110px;
+}
+.info p{
+	font-size: 2.0ch;
+}

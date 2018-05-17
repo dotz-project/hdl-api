@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="./ClaroAdm/materials/materials.css">
+<div>
+    <div class="panel panel-default relative">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="p-15">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h2 ng-bind="material.title"></h2>
+                            <br>
+                            <p ng-bind="material.description"></p>
+                            <p ng-bind="'Ativado em '+'{{material.created_at | amUtc | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}'"></p>
+                            <p ng-bind="'Início em '+'{{material.started_at | amUtc | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}'"></p>
+                            <p ng-bind="'Término em '+'{{material.expired_at | amUtc | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}'"> </p>
+                        </div>
+                        <div class="col-md-3">
+                            <p ng-if="material.status == 1">Ativado</p>
+                            <p ng-if="material.status == 0">Desativado</p>
+                        </div>  
+                    </div>
+                </div>
+                <hr>
+                <!-- <div class="p-15 pt-5">
+                    <h2 class="mt-5">Grupo de DDDS</h2>
+                    <div class="panel panel-default">
+                        <div class="form-group" ng-repeat="ddd in allDDDs">
+                            <input type="checkbox" ng-checked="ddd.id == material.ddd_groups.id" >
+                            <label ng-bind="ddd.name"></label>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 text-center info">
+                <div style="height: 100%">
+                    <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides" style="cursor:pointer">
+                        <div ng-click="methods.showImage(slide)" uib-slide ng-repeat="slide in material.handoutSheets " index="$index">
+                            <img ng-src="{{slide.image_lg}}" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--MODAIS-->
+<div id="modalEdit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form name="register" novalidate ng-submit="methods.edit(material)">
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" name="title" class="form-control" ng-model="material.title" required>
+                        <span ng-show="(register.title.$touched || submitted) && register.title.$invalid">Título obrigatório</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Descrição</label>
+                        <textarea name="description" class="form-control" ng-model="material.description" required></textarea>
+                        <span ng-show="(register.description.$touched || submitted) && register.description.$invalid">Sobrenome obrigatório</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Vigência</label>
+                        <input options="actions.dateConfig" date-range-picker class="form-control date-picker" type="text" id="date" ng-model="material.validy"/>
+                        <span ng-show="submitted && !material.validy">Vigência obrigatório</span>
+                    </div>
+                    <button type="submit"  class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalSheet" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content centers">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="pull-right">
+                    <button class="btn btn-info" id="createArea" ng-click="methods.createArea()">Criar área</button>
+                </div>
+                <img ng-areas="fields900" ng-areas-width="900"
+                    ng-areas-allow="{'edit':true, 'move':true, 'resize':true, 'select':true, 'remove':true, 'nudge':false}"
+                    ng-areas-on-add="onAddArea"
+                    ng-areas-on-remove="onRemoveArea"
+                    ng-areas-on-change="onChangeAreas900"
+                    ng-areas-extend-data="{pageNumber: 1, tag: 'width900'}"
+                    ng-src="{{sheetSelect.image_lg}}">
+                <div>Event Log: {{log900}}</div>
+                    
+                <img ng-areas="fields600" ng-areas-width="600"
+                    ng-areas-allow="{'edit':true, 'move':true, 'resize':true, 'select':true, 'remove':true, 'nudge':false}"
+                    ng-areas-on-add="onAddArea"
+                    ng-areas-on-remove="onRemoveArea"
+                    ng-areas-on-change="onChangeAreas600"
+                    ng-areas-extend-data="{pageNumber: 1, tag: 'width600'}"
+                    ng-src="{{sheetSelect.image_lg}}">
+            </div>
+        </div>
+    </div>
+</div>
+

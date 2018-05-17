@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="./ClaroAdm/shared/shared.css">
+<div class="mb-50">
+    <h2>Compartilhados</h2>
+    <div class="panel panel-danger p-10" ng-repeat="share in shares">
+        
+        <p ng-bind="share.firstname"></p>
+        <p ng-bind="share.lastname"></p>
+        <p ng-bind="share.cellphone"></p>
+        <p ng-bind="share.email"></p>
+        <p ng-bind="'Ativado em '+'{{share.created_at | amUtc | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}'"></p>
+        <p ng-bind="'Início em '+'{{share.opened_at | amUtc | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}'"></p>
+    </div>
+    <button class="btn btn-danger" ng-click="methods.more()">Carregar Mais</button>
+</div>
+
+
+

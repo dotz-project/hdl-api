@@ -1,0 +1,89 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.7.22
+    restart: always
+    volumes:
+      - /var/lib/mysql
+      - ./docker/mysql/config.cnf:/etc/mysql/conf.d/config.cnf
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: orchestrator
+      MYSQL_USER: orchestrator_user
+      MYSQL_PASSWORD: orchestrator_pass
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+     - ./storage/rabbitmq:/var/lib/rabbitmq
+    environment:
+     - RABBITMQ_ERLANG_COOKIE=This_is_my_secret_phrase
+     - RABBITMQ_DEFAULT_USER=mqadmin
+     - RABBITMQ_DEFAULT_PASS=Admin123XX_
+     - CLUSTERED=false
+
+  php:
+    image: marcosmborges/yii2:version2
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./:/app:delegated
+    ports:
+      - '8000:80'
+    depends_on:
+      - db
+      - memcached
+      - rabbitmq
+    links: 
+      - db:db
+      - memcached:memcached
+      - rabbitmq:rabbitmq
+    environment:
+
+      APP_HOST: http://localhost:8081
+      
+      MYSQL_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: orchestrator
+      MYSQL_USER: orchestrator_user
+      MYSQL_PASSWORD: orchestrator_pass
+      
+      SECRETKEY: r2HeQFYVuw/Rd6LDV4wxnUMEcvotUXS4jLJh+MKRRdp4X9VPk3GFdVJF9mr3TRjaO1gbQDM3+cle4qA+VxZMog==
+      SECRETIV: UedE4D1Pc0jXWTK/5daMtg==
+      SALT: ArKlBJV4wxnUMEcvotUXS4jLJomM0F
+      
+      SYS_ADMIN_MAIL : contato@marcosborges.com
+
+      SMTP_HOST: smtp-pulse.com
+      SMTP_USER: contato@marcosborges.com
+      SMTP_PASS: se3GAJTAXXFbTkj
+      SMTP_PORT: 465
+      SMTP_ENCR: ssl
+
+      MEMCACHED_HOST_1: memcached
+      MEMCACHED_PORT_1: 11211
+
+      RABBIT_HOSTNAME : rabbitmq
+      RABBIT_PORT : 5672
+      RABBIT_USERNAME : mqadmin
+      RABBIT_PASSWORD : Admin123XX_
+      RABBIT_VHOST : /
+
+      MONGODB_ATLAS_USERNAME : marcos.borges@dotz.com
+      MONGODB_ATLAS_API_KEY : 9f0ef12f-cd9a-4306-a611-7292db0cece3
+      MONGODB_ATLAS_GROUP : 59d7dffc3b34b9115c0d06f5
+
+      #GOOGLE_APPLICATION_CREDENTIALS : config/dotzcloud-automation-2405b31335db.json
+                
+  memcached:
+    image: memcached
+    ports:
+      - "11211:11211"
+  
+  

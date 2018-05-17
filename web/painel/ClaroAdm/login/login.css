@@ -1,0 +1,83 @@
+header.topo-login{
+	margin: 60px 0;
+}
+
+.logo-login{
+	height: 100px;
+}
+
+.form-login{
+	width: 430px;
+	margin: 0 auto;
+}
+
+section.form-login form div.form-group button{
+	width: 100%;
+	font-weight: bold;
+}
+
+section.form-login form div input{
+    margin-bottom: 20px;
+    border-radius: 28px 12px 12px 28px;
+    height: 50px;
+    border-color: #ee2631;
+    padding-left: 76px;
+    font-family: 'RegularAlternate Arial', Sans-serif;
+    font-size: 16px;
+}
+
+section.form-login form div.form-group {
+    margin-bottom: 32px;
+}
+
+section.form-login h3{
+    margin-bottom: 28px;
+	color: #363636;
+	font-weight: 900;
+}
+
+section.form-login a{
+	color: #363636;
+}
+
+section.form-login a:hover,
+section.form-login a:focus{
+	text-decoration: none;
+	color: #000;
+}
+
+.icon-user-background,
+.icon-senha-background,.icon-ddd-background{
+	position: absolute;
+	height: 68px;
+	width: 68px;
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-size: 58px;
+	left: -3px;
+    top:-3px;
+}
+
+/* .icon-user-background{
+	background-image: url('../img/user-login.png');
+}
+
+.icon-senha-background{
+	background-image: url('../img/senha-login.png');
+}
+
+.icon-ddd-background{
+	background-image: url('../img/ddd-login.png');
+} */
+.forgot a:hover{
+	cursor: pointer;
+	color:#d9534f!important;
+}
+.relative{
+	position: relative;
+}
+
+.box-imgfundo-login{
+	height: 200px;
+	margin-top: 100px;
+}

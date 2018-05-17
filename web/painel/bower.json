@@ -1,0 +1,41 @@
+{
+  "name": "claro-adm",
+  "description": "Painel ADM do claro",
+  "main": "index.js",
+  "authors": [
+    "CWSoftwares"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower-asset",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-animate": "^1.6.5",
+    "angular-bootstrap-calendar": "^1.0.0",
+    "angular-bootstrap-toggle": "^0.1.2",
+    "angular-bootstrap": "^2.5.0",
+    "angular-ui-mask": "^1.8.7",
+    "angular-touch": "^1.6.5",
+    "angular-ui-calendar": "^1.0.2",
+    "angular-ui-router": "^1.0.5",
+    "components-font-awesome": "^4.7.0",
+    "font-awesome": "https://github.com/FortAwesome/Font-Awesome.git",
+    "ngSweetAlert": "angular-sweetalert#^1.1.2",
+    "oclazyload": "https://github.com/ocombe/ocLazyLoad.git#^1.1.0",
+    "ngMask": "angular-mask#^3.1.1",
+    "angular-daterangepicker": "^0.2.2",
+    "bootstrap-daterangepicker": "https://github.com/dangrossman/bootstrap-daterangepicker.git#^2.1.27",
+    "angular-moment": "https://github.com/urish/angular-moment.git#^1.2.0",
+    "ng-file-upload": "https://github.com/danialfarid/ng-file-upload.git#^12.2.13",
+    "angular-areas": "https://github.com/delkant/angular-areas.git#^1.0.4"
+  },
+  "resolutions":{
+    "angular":"1.6.9"
+  }
+}
