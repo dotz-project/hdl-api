@@ -18,6 +18,10 @@ Estrutura dos diretórios
 
 O mínimo requerido para rodar este projeto no web service seria PHP 5.4.0, Apache 2 e MySql 5
 
+# API DOC
+
+https://documenter.getpostman.com/view/2338905/RW86Lq7p
+
 ---
 # Instalação
 
