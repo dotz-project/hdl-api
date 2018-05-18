@@ -103,6 +103,28 @@ $ docker-compose down
 mysql -uysk_dbu -pysk_pass
 ```
 
+10. Iniciar, parar, reiniciar e consultar status dos consumidores
+```
+$ sudo docker-compose exec php consumers.sh status
+```
+```
+$ sudo docker-compose exec php consumers.sh stop
+```
+```
+$ sudo docker-compose exec php consumers.sh start
+```
+```
+$ sudo docker-compose exec php consumers.sh restart
+```
+
+Em alguns casos temos que acessar a instancia para iniciar o serviço
+```
+$ sudo docker exec -it e4611e346ad8 bash
+```
+dentro da instancia
+```
+$ consumers.sh start
+```
 ---
 # Configuração
 
