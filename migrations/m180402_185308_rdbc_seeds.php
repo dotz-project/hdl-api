@@ -94,13 +94,13 @@ class m180402_185308_rdbc_seeds extends Migration
         $this->_createPermission($auth, 'deployments.view', 'return the details of a model',[$admin,$devops]);
         $this->_createPermission($auth, 'deployments.delete', 'delete an existing model',[$admin,$devops]);
         $this->_createPermission($auth, 'deployments.options', 'return the allowed HTTP methods',[$admin,$dev,$devops]);
-       
-        $this->_createPermission($auth, 'deployment_components.index', 'list of models',[$admin,$devops]);
-        $this->_createPermission($auth, 'deployment_components.create', 'create a new model',[$admin,$devops]);
-        $this->_createPermission($auth, 'deployment_components.update', 'update an existing model',[$admin,$devops]);
-        $this->_createPermission($auth, 'deployment_components.view', 'return the details of a model',[$admin,$devops]);
-        $this->_createPermission($auth, 'deployment_components.delete', 'delete an existing model',[$admin,$devops]);
-        $this->_createPermission($auth, 'deployment_components.options', 'return the allowed HTTP methods',[$admin,$dev,$devops]);
+
+        $this->_createPermission($auth, 'deployment_environment_components.index', 'list of models',[$admin,$devops]);
+        $this->_createPermission($auth, 'deployment_environment_components.create', 'create a new model',[$admin,$devops]);
+        $this->_createPermission($auth, 'deployment_environment_components.update', 'update an existing model',[$admin,$devops]);
+        $this->_createPermission($auth, 'deployment_environment_components.view', 'return the details of a model',[$admin,$devops]);
+        $this->_createPermission($auth, 'deployment_environment_components.delete', 'delete an existing model',[$admin,$devops]);
+        $this->_createPermission($auth, 'deployment_environment_components.options', 'return the allowed HTTP methods',[$admin,$dev,$devops]);
 
     }
 

@@ -16,10 +16,10 @@ use yii\web\ServerErrorHttpException;
 /**
  * Default controller for the `apiv1` module
  */
-class DeploymentComponentsController extends ActiveController
+class DeploymentEnvironmentComponentsController extends ActiveController
 {
 
-    public $modelClass = 'app\models\DeploymentComponents';
+    public $modelClass = 'app\models\DeploymentEnvironmentComponents';
 
     public function behaviors() {
         
@@ -38,11 +38,11 @@ class DeploymentComponentsController extends ActiveController
             'enableRateLimitHeaders' => true,
         ];
 
-        return $behaviors;
+        return $behaviors;  
     }
 
     public function checkAccess($action, $model = null, $params = []){
-        if (!Yii::$app->user->can("deployment_components.{$action}") && !empty(yii::$app->user->id)) 
+        if (!Yii::$app->user->can("deployment_environment_components.{$action}") && !empty(yii::$app->user->id)) 
             throw new \yii\web\ForbiddenHttpException(sprintf('Você não tem permissão para acessar este recurso.', $action));
         return true;
     }

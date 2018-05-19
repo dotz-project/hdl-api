@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $name
+ * @property string $alias
  * @property string $avatar
  * @property string $description
  * @property string $type
@@ -23,7 +24,7 @@ use Yii;
  * @property string $created_at
  * @property int $owner_id
  *
- * @property DeploymentComponents[] $deploymentComponents
+ * @property DeploymentEnvironmentComponents[] $deploymentEnvironmentComponents
  * @property Deployments[] $deployments
  * @property Users $owner
  */
@@ -46,11 +47,12 @@ class Environments extends \yii\db\ActiveRecord
             [['created_at'],    'filter',  'filter' => function($value){ return date('Y-m-d H:i:s'); } , 'when'=>function($model) { return $model->isNewRecord; } ],
             [['status'],        'filter',  'filter' => function($value){ return '0'; }, 'when'=>function($model) { return $model->isNewRecord; }],
             [['owner_id'],      'filter',  'filter' => function($value){ return \Yii::$app->user->id; }, 'when'=>function($model) { return $model->isNewRecord; }],
-            [['name', 'created_at'], 'required'],
+            [['name', 'alias', 'created_at'], 'required'],
             [['status', 'owner_id', 'gcInitialNodeCount', 'production'], 'integer'],
             [['created_at'], 'safe'],
             [['name', 'avatar', 'description', 'type',  'gcProjectId', 'gcProjectName', 'gcZone', 'gcNetwork', 'gcSubnetwork', 'gcIpv4Cidr', 'gcStatus'], 'string', 'max' => 255],
             [['name'], 'unique'],
+            [['alias'], 'unique'],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['owner_id' => 'id']],
         ];
     }
@@ -83,27 +85,21 @@ class Environments extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-   
-   
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDeploymentEnvironments()
+    public function getDeploymentEnvironmentComponents()
     {
-        return $this->hasMany(DeploymentEnvironments::className(), ['environment_id' => 'id']);
+        return $this->hasMany(DeploymentEnvironmentComponents::className(), ['environment_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+    public function getDeployments()
+    {
+        return $this->hasMany(Deployments::className(), ['deployment_id' => 'id'])->via('deploymentEnvironmentComponents');
+    }
+
     public function getOwner()
     {
         return $this->hasOne(Users::className(), ['id' => 'owner_id']);
     }
-
-
-
 
     public function afterSave($insert, $changedAttributes)
     {

@@ -45,5 +45,15 @@ class DeploymentsController extends ActiveController
             throw new \yii\web\ForbiddenHttpException(sprintf('Você não tem permissão para acessar este recurso.', $action));
         return true;
     }
-    
-} 
+
+    public function beforeAction($action){
+        //var_dump($action);
+        return parent::beforeAction($action);
+    }
+
+    public function afterAction($action, $result){
+        $result = parent::afterAction($action, $result);
+        //Yii::$app->request->bodyParams
+        return $result;
+    }
+}

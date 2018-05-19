@@ -94,9 +94,7 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/environments', 'pluralize'=>false],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/deployments', 'pluralize'=>false],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/components', 'pluralize'=>false],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/deployment-components', 'pluralize'=>false],
-                
-                
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/deployment-environment-components', 'pluralize'=>false],
             ],
         ]
     ],

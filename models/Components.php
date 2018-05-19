@@ -19,7 +19,9 @@ use Yii;
  * @property int $status
  * @property string $created_at
  *
- * @property DeploymentComponents[] $deploymentComponents
+ * @property Deployments[] $deployments
+ * @property Environments[] $environments
+ * @property DeploymentEnvironmentComponents[] $deploymentEnvironmentComponents
  */
 class Components extends \yii\db\ActiveRecord
 {
@@ -37,7 +39,7 @@ class Components extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['driver_params','parameters'],        'filter',  'filter' => function($value){ return json_encode($value); }],
+            [['driver_params','parameters'], 'filter', 'filter' => function($value){ return json_encode($value); }],
             [['name', 'created_at'], 'required'],
             [['description', 'keys', 'driver_params', 'parameters'], 'string'],
             [['status'], 'integer'],
@@ -51,7 +53,6 @@ class Components extends \yii\db\ActiveRecord
         $this->driver_params = json_decode($this->driver_params, true);
         $this->parameters = json_decode($this->parameters, true);
     }
-
 
     /**
      * {@inheritdoc}
@@ -72,11 +73,18 @@ class Components extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDeploymentComponents()
+    public function getDeployments()
     {
-        return $this->hasMany(DeploymentComponents::className(), ['component_id' => 'id']);
+        return $this->hasMany(Deployments::className(), ['deployment_id' => 'id'])->via('deploymentEnvironmentComponents');
+    }
+
+     public function getEnvironments()
+    {
+        return $this->hasMany(Environments::className(), ['environment_id' => 'id'])->via('deploymentEnvironmentComponents');
+    }
+
+    public function getDeploymentEnvironmentComponents()
+    {
+        return $this->hasMany(DeploymentEnvironmentComponents::className(), ['component_id' => 'id']);
     }
 }

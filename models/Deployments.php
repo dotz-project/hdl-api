@@ -9,7 +9,6 @@ use Yii;
  *
  * @property int $id
  * @property string $name
- * @property int $environment_id
  * @property string $repository_url
  * @property string $repository_base_path
  * @property string $solutions
@@ -21,7 +20,10 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property Environments $environment
+ * @property Environments[] $environments
+ * @property Components[] $components
+ * @property DeploymentEnvironmentComponents[] $deploymentEnvironmentComponents
+ * 
  */
 class Deployments extends \yii\db\ActiveRecord
 {
@@ -90,18 +92,19 @@ class Deployments extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
-
-      public function getDeploymentComponents()
-    {
-        return $this->hasMany(DeploymentComponents::className(), ['deployment_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDeploymentEnvironments()
-    {
-        return $this->hasMany(DeploymentEnvironments::className(), ['deployment_id' => 'id']);
-    }
     
+    public function getComponents()
+    {
+        return $this->hasMany(Components::className(), ['id' => 'component_id'])->via('deploymentEnvironmentComponents');
+    }
+
+    public function getEnvironments()
+    {
+        return $this->hasMany(Environments::className(), ['id' => 'environment_id'])->via('deploymentEnvironmentComponents');
+    }
+
+    public function getDeploymentEnvironmentComponents()
+    {
+        return $this->hasMany(DeploymentEnvironmentComponents::className(), ['deployment_id' => 'id']);
+    }
 }

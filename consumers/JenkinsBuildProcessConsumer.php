@@ -19,7 +19,6 @@ class JenkinsBuildProcessConsumer implements ConsumerInterface
         try{
             try{
                 $jenkins = new Jenkins(getenv('JENKINS_HOSTNAME'),getenv('JENKINS_USERNAME'),getenv('JENKINS_API_KEY'));
-               
                 return ConsumerInterface::MSG_ACK;
             } catch(\Exception $e){
                 error_log(__CLASS__ . ": " . $e->getMessage());

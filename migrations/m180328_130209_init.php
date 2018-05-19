@@ -31,6 +31,7 @@ class m180328_130209_init extends Migration
 
         $this->createTable('environments', [
             'id' => $this->primaryKey(),
+            'alias' => $this->string()->notNull()->unique(),
             'name' => $this->string()->notNull()->unique(),
             'avatar' => $this->string(),
             'description' => $this->string(),
@@ -92,10 +93,11 @@ class m180328_130209_init extends Migration
         $this->createIndex('idx-deployments-status', 'deployments', 'status');
         $this->createIndex('idx-deployments-created_at', 'deployments', 'created_at');
         
-        $this->createTable('deployment_components', [
+        $this->createTable('deployment_environment_components', [
             'id' => $this->primaryKey(),
-            'deployment_id' => $this->integer(),
-            'component_id' => $this->integer(),
+            'environment_id' => $this->integer()->notNull(),
+            'deployment_id' => $this->integer()->notNull(),
+            'component_id' => $this->integer()->notNull(),
             'data' => $this->text(),
             'feedback' => $this->text(),
             'status' => $this->integer(),
@@ -103,33 +105,21 @@ class m180328_130209_init extends Migration
             'updated_at' => $this->dateTime()
         ], 'ENGINE InnoDB');
 
-        $this->addForeignKey('fk-deployment_components-deployment', 'deployment_components', 'deployment_id', 'deployments', 'id', 'CASCADE');
-        $this->addForeignKey('fk-deployment_components-component_id', 'deployment_components', 'component_id', 'components', 'id', 'CASCADE');
+        $this->addForeignKey('fk-deployment_environment_components-deployment', 'deployment_environment_components', 'deployment_id', 'deployments', 'id', 'CASCADE');
+        $this->addForeignKey('fk-deployment_environment_components-environment_id', 'deployment_environment_components', 'environment_id', 'environments', 'id', 'CASCADE');
+        $this->addForeignKey('fk-deployment_environment_components-component_id', 'deployment_environment_components', 'component_id', 'components', 'id', 'CASCADE');
        
 
-        $this->createTable('deployment_environments', [
-            'id' => $this->primaryKey(),
-            'deployment_id' => $this->integer(),
-            'environment_id' => $this->integer(),
-            'status' => $this->integer(),
-            'created_at' => $this->dateTime()->notNull()
-        ], 'ENGINE InnoDB');
-
-        $this->addForeignKey('fk-deployment_environments-deployment', 'deployment_environments', 'deployment_id', 'deployments', 'id', 'CASCADE');
-        $this->addForeignKey('fk-deployment_environments-environment_id', 'deployment_environments', 'environment_id', 'environments', 'id', 'CASCADE');
-       
     }
 
     public function down()
     {
         echo "m180328_130209_init cannot be reverted.\n";
-        $this->dropTable('deployment_components');
+        $this->dropTable('deployment_environment_components');
         $this->dropTable('deployments');
         $this->dropTable('components');
         $this->dropTable('environments');
         $this->dropTable('users');
-       
-        
         return false;
     }
 }

@@ -7,7 +7,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 use app\drivers\Driver;
 use app\models\Components;
-use app\models\DeploymentComponents;
+use app\models\DeploymentEnvironmentComponents;
 
 
 
@@ -31,7 +31,7 @@ class ComponentsProcessConsumer implements ConsumerInterface
             $driver = new Driver($_comp->driver,$data['data']['name'],["conf"=>$_comp->driver_params,"body"=>$data]);
             $result = $driver->available();
             if($result !== false){
-                $dc = DeploymentComponents::findOne(['id'=>$data['id']]);
+                $dc = DeploymentEnvironmentComponents::findOne(['id'=>$data['id']]);
                 $dc->status = 1;
                 $dc->feedback = $result;
                 $dc->save();
