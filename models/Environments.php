@@ -83,17 +83,15 @@ class Environments extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDeploymentComponents()
-    {
-        return $this->hasMany(DeploymentComponents::className(), ['environment_id' => 'id']);
-    }
+   
+   
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDeployments()
+    public function getDeploymentEnvironments()
     {
-        return $this->hasMany(Deployments::className(), ['environment_id' => 'id']);
+        return $this->hasMany(DeploymentEnvironments::className(), ['environment_id' => 'id']);
     }
 
     /**
@@ -103,6 +101,8 @@ class Environments extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Users::className(), ['id' => 'owner_id']);
     }
+
+
 
 
     public function afterSave($insert, $changedAttributes)

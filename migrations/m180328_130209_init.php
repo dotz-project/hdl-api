@@ -62,6 +62,7 @@ class m180328_130209_init extends Migration
             'keys' => $this->text(),
             'driver' => $this->string(),
             'driver_params' => $this->text(),
+            'parameters' => $this->text(),
             'status' => $this->integer(),
             'created_at' => $this->dateTime()->notNull()
         ], 'ENGINE InnoDB');        
@@ -75,7 +76,6 @@ class m180328_130209_init extends Migration
             'name' => $this->string(),
             'description' => $this->text(),
             'domain' => $this->text(),
-            'environment_id' => $this->integer(),
             'repository_url' => $this->text(),
             'repository_base_path' => $this->text(),
             'solutions' => $this->text(),
@@ -92,8 +92,6 @@ class m180328_130209_init extends Migration
         $this->createIndex('idx-deployments-status', 'deployments', 'status');
         $this->createIndex('idx-deployments-created_at', 'deployments', 'created_at');
         
-        $this->addForeignKey('fk-deployments-environment_id', 'deployments', 'environment_id', 'environments', 'id', 'CASCADE');
-        
         $this->createTable('deployment_components', [
             'id' => $this->primaryKey(),
             'deployment_id' => $this->integer(),
@@ -107,6 +105,18 @@ class m180328_130209_init extends Migration
 
         $this->addForeignKey('fk-deployment_components-deployment', 'deployment_components', 'deployment_id', 'deployments', 'id', 'CASCADE');
         $this->addForeignKey('fk-deployment_components-component_id', 'deployment_components', 'component_id', 'components', 'id', 'CASCADE');
+       
+
+        $this->createTable('deployment_environments', [
+            'id' => $this->primaryKey(),
+            'deployment_id' => $this->integer(),
+            'environment_id' => $this->integer(),
+            'status' => $this->integer(),
+            'created_at' => $this->dateTime()->notNull()
+        ], 'ENGINE InnoDB');
+
+        $this->addForeignKey('fk-deployment_environments-deployment', 'deployment_environments', 'deployment_id', 'deployments', 'id', 'CASCADE');
+        $this->addForeignKey('fk-deployment_environments-environment_id', 'deployment_environments', 'environment_id', 'environments', 'id', 'CASCADE');
        
     }
 

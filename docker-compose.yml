@@ -40,12 +40,15 @@ services:
       - db
       - memcached
       - rabbitmq
+      - jenkins
     links: 
       - db:db
       - memcached:memcached
       - rabbitmq:rabbitmq
+      - jenkins:jenkins
     environment:
       APP_HOST: http://localhost:8081
+      
       MYSQL_HOST: db
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: orchestrator
@@ -73,9 +76,27 @@ services:
       RABBIT_PASSWORD : Admin123XX_
       RABBIT_VHOST : /
 
+      JENKINS_HOSTNAME : http://jenkins:8080/jenkins
+      JENKINS_USERNAME : user
+      JENKINS_PASSWORD : bitnami
+      JENKINS_API_KEY : 515420206d19b1be81e602bff016a0bd
+
   memcached:
     image: memcached
     ports:
       - "11211:11211"
   
+  jenkins:
+    image: bitnami/jenkins:latest
+    hostname: jenkins
+    container_name: jenkins
+    ports:
+      - '80:8080'
+      - '443:8443'
+    volumes:
+      - './docker/jenkins_data:/bitnami'
+    environment:
+      JENKINS_USERNAME : user
+      JENKINS_PASSWORD : bitnami
+
   

@@ -90,7 +90,80 @@ return [
                 'x-dead-letter-routing-key' => 'COMPONENTS.PROCESS',
                 'x-message-ttl' => 10000
             ])
-        ],
+        ],[
+            'name' => 'JENKINS.CREATE.JOB', 
+            'durable' => true, 
+            'auto_delete' => false,
+            'arguments' => new \PhpAmqpLib\Wire\AMQPTable([
+                'x-dead-letter-exchange' => '',
+                'x-dead-letter-routing-key' => 'JENKINS.CREATE.JOB.RETRY',
+            ]),
+        ],[
+            'name' => 'JENKINS.CREATE.JOB.RETRY', 
+            'durable' => true, 
+            'auto_delete' => false,
+            'arguments' => new \PhpAmqpLib\Wire\AMQPTable([
+                'x-dead-letter-exchange' => '',
+                'x-dead-letter-routing-key' => 'JENKINS.CREATE.JOB',
+                'x-message-ttl' => 30000
+            ])
+        ],[
+            'name' => 'JENKINS.BUILD', 
+            'durable' => true, 
+            'auto_delete' => false,
+            'arguments' => new \PhpAmqpLib\Wire\AMQPTable([
+                'x-dead-letter-exchange' => '',
+                'x-dead-letter-routing-key' => 'JENKINS.BUILD.RETRY',
+            ]),
+        ],[
+            'name' => 'JENKINS.BUILD.RETRY', 
+            'durable' => true, 
+            'auto_delete' => false,
+            'arguments' => new \PhpAmqpLib\Wire\AMQPTable([
+                'x-dead-letter-exchange' => '',
+                'x-dead-letter-routing-key' => 'JENKINS.BUILD',
+                'x-message-ttl' => 30000
+            ])
+        ],[
+            'name' => 'JENKINS.BUILD.PROCESS', 
+            'durable' => true, 
+            'auto_delete' => false,
+            'arguments' => new \PhpAmqpLib\Wire\AMQPTable([
+                'x-dead-letter-exchange' => '',
+                'x-dead-letter-routing-key' => 'JENKINS.BUILD.PROCESS.RETRY',
+            ]),
+        ],[
+            'name' => 'JENKINS.BUILD.PROCESS.RETRY', 
+            'durable' => true, 
+            'auto_delete' => false,
+            'arguments' => new \PhpAmqpLib\Wire\AMQPTable([
+                'x-dead-letter-exchange' => '',
+                'x-dead-letter-routing-key' => 'JENKINS.BUILD.PROCESS',
+                'x-message-ttl' => 10000
+            ])
+        ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     ],
     'bindings' => [
@@ -126,36 +199,63 @@ return [
             'queue' => 'COMPONENTS.PROCESS.RETRY',
             'exchange' => 'ORCHESTRATOR_RETRY',
             'routing_keys' => ['ORCHESTRATOR.COMPONENTS.PROCESS.RETRY'],
+        ],[
+            'queue' => 'JENKINS.CREATE.JOB',
+            'exchange' => 'ORCHESTRATOR',
+            'routing_keys' => ['ORCHESTRATOR.JENKINS.CREATE.JOB'],
+        ],[
+            'queue' => 'JENKINS.CREATE.JOB.RETRY',
+            'exchange' => 'ORCHESTRATOR_RETRY',
+            'routing_keys' => ['ORCHESTRATOR.JENKINS.CREATE.JOB.RETRY'],
+        ],[
+            'queue' => 'JENKINS.BUILD',
+            'exchange' => 'ORCHESTRATOR',
+            'routing_keys' => ['ORCHESTRATOR.JENKINS.BUILD'],
+        ],[
+            'queue' => 'JENKINS.BUILD.RETRY',
+            'exchange' => 'ORCHESTRATOR_RETRY',
+            'routing_keys' => ['ORCHESTRATOR.JENKINS.BUILD.RETRY'],
+        ],[
+            'queue' => 'JENKINS.BUILD.PROCESS',
+            'exchange' => 'ORCHESTRATOR',
+            'routing_keys' => ['ORCHESTRATOR.JENKINS.BUILD.PROCESS'],
+        ],[
+            'queue' => 'JENKINS.BUILD.PROCESS.RETRY',
+            'exchange' => 'ORCHESTRATOR_RETRY',
+            'routing_keys' => ['ORCHESTRATOR.JENKINS.BUILD.PROCESS.RETRY'],
         ]
-
     ],
     'producers' => [
         [ 'name' => 'CLUSTER.REQUEST.PRODUCER' ],
         [ 'name' => 'CLUSTER.PROCESS.PRODUCER' ],
         [ 'name' => 'COMPONENTS.REQUEST.PRODUCER' ],
-        [ 'name' => 'COMPONENTS.PROCESS.PRODUCER' ]
+        [ 'name' => 'COMPONENTS.PROCESS.PRODUCER' ],
+        [ 'name' => 'JENKINS.CREATE.JOB.PRODUCER' ],
+        [ 'name' => 'JENKINS.BUILD.PRODUCER' ],
+        [ 'name' => 'JENKINS.BUILD.PROCESS.PRODUCER' ],
     ],
     'consumers' => [
         [
             'name' => 'COMPONENTS.REQUEST.CONSUMER',
-            'callbacks' => [
-                'COMPONENTS.REQUEST' => \app\consumers\ComponentsRequestConsumer::class,
-            ]
+            'callbacks' => ['COMPONENTS.REQUEST' => \app\consumers\ComponentsRequestConsumer::class]
         ],[
             'name' => 'COMPONENTS.PROCESS.CONSUMER',
-            'callbacks' => [
-                'COMPONENTS.PROCESS' => \app\consumers\ComponentsProcessConsumer::class,
-            ]
+            'callbacks' => ['COMPONENTS.PROCESS' => \app\consumers\ComponentsProcessConsumer::class]
         ], [
             'name' => 'CLUSTER.REQUEST.CONSUMER',
-            'callbacks' => [
-                'CLUSTER.REQUEST' => \app\consumers\ClusterRequestConsumer::class,
-            ]
+            'callbacks' => ['CLUSTER.REQUEST' => \app\consumers\ClusterRequestConsumer::class]
         ], [
             'name' => 'CLUSTER.PROCESS.CONSUMER',
-            'callbacks' => [
-                'CLUSTER.PROCESS' => \app\consumers\ClusterProcessConsumer::class,
-            ]
+            'callbacks' => ['CLUSTER.PROCESS' => \app\consumers\ClusterProcessConsumer::class]
+        ],[
+            'name' => 'JENKINS.CREATE.JOB.CONSUMER',
+            'callbacks' => ['JENKINS.CREATE.JOB' => \app\consumers\JenkinsCreateJobConsumer::class]
+        ],[
+            'name' => 'JENKINS.BUILD.CONSUMER',
+            'callbacks' => ['JENKINS.BUILD' => \app\consumers\JenkinsBuildConsumer::class]
+        ],[
+            'name' => 'JENKINS.BUILD.PROCESS.CONSUMER',
+            'callbacks' => ['JENKINS.BUILD.PROCESS' => \app\consumers\JenkinsBuildProcessConsumer::class]
         ],
     ],
     'on before_consume' => function ($event) {

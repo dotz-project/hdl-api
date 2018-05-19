@@ -15,6 +15,7 @@ use Yii;
  * @property string $keys
  * @property string $driver
  * @property string $driver_params
+ * @property string $parameters
  * @property int $status
  * @property string $created_at
  *
@@ -36,9 +37,9 @@ class Components extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['driver_params'],        'filter',  'filter' => function($value){ return json_encode($value); }],
+            [['driver_params','parameters'],        'filter',  'filter' => function($value){ return json_encode($value); }],
             [['name', 'created_at'], 'required'],
-            [['description', 'keys', 'driver_params'], 'string'],
+            [['description', 'keys', 'driver_params', 'parameters'], 'string'],
             [['status'], 'integer'],
             [['created_at'], 'safe'],
             [['name', 'avatar', 'type', 'driver'], 'string', 'max' => 255],
@@ -48,6 +49,7 @@ class Components extends \yii\db\ActiveRecord
     public function afterFind(){
         parent::afterFind();
         $this->driver_params = json_decode($this->driver_params, true);
+        $this->parameters = json_decode($this->parameters, true);
     }
 
 

@@ -29,6 +29,12 @@ start() {
   /app/yii rabbitmq/consume CLUSTER.REQUEST.CONSUMER > /dev/null &
 	echo "starting CLUSTER.PROCESS.CONSUMER";
   /app/yii rabbitmq/consume CLUSTER.PROCESS.CONSUMER > /dev/null &
+	echo "starting JENKINS.CREATE.JOB.CONSUMER";
+  /app/yii rabbitmq/consume JENKINS.CREATE.JOB.CONSUMER > /dev/null &
+	echo "starting JENKINS.BUILD.CONSUMER";
+  /app/yii rabbitmq/consume JENKINS.BUILD.CONSUMER > /dev/null &
+	echo "starting JENKINS.BUILD.PROCESS.CONSUMER";
+  /app/yii rabbitmq/consume JENKINS.BUILD.PROCESS.CONSUMER > /dev/null &
 
 	RETVAL=$?
         [ $RETVAL = 0 ]

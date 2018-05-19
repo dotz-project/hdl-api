@@ -21,6 +21,16 @@ class m180510_233250_seed_add_kafka_component_ extends Migration
                 'endpoint' => 'https://customer.cloudkarafka.com/api',
                 'api_key' => '85c146d6-2322-4e69-9019-cb51d43ce2da'
             ]),
+            'parameters' => json_encode([
+                'plan' => [
+                    'type' => 'string',
+                    'default' => 'duck'
+                ],
+                'region' => [
+                    'type' => 'string',
+                    'default' => 'amazon-web-services::us-east-1'
+                ],
+            ]),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s')
         ]);

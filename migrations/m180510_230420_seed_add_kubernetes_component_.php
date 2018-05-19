@@ -31,6 +31,9 @@ class m180510_230420_seed_add_kubernetes_component_ extends Migration
                 "auth_provider_x509_cert_url" => "https://www.googleapis.com/oauth2/v1/certs",
                 "client_x509_cert_url" => "https://www.googleapis.com/robot/v1/metadata/x509/orchestrator%40dotzcloud-orchestrator.iam.gserviceaccount."
             ]),
+            'parameters' => json_encode([
+                
+            ]),
             'status' => 0,
             'created_at' => date('Y-m-d H:i:s')
         ]);

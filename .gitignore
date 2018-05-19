@@ -5,6 +5,7 @@
 nbproject
 
 storage
+docker
 
 # zend studio for eclipse project files
 .buildpath

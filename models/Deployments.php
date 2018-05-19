@@ -43,13 +43,14 @@ class Deployments extends \yii\db\ActiveRecord
             [['status'],        'filter',  'filter' => function($value){ return '0'; }, 'when'=>function($model) { return $model->isNewRecord; }],
             [['solutions'],        'filter',  'filter' => function($value){ return json_encode($value); }],
             [['repository_base_path'],        'filter',  'filter' => function($value){ return json_encode($value); }],
-            [['environment_id', 'status'], 'integer'],
+            [[ 'status'], 'integer'],
             [['repository_url', 'repository_base_path', 'dockerfile', 'deployment_yml', 'ingress_yml'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'expose_type', 'description', 'domain'], 'string', 'max' => 255],
             [['name'], 'unique'],
-            [['environment_id','repository_url'], 'required'],
-            [['environment_id'], 'exist', 'skipOnError' => true, 'targetClass' => Environments::className(), 'targetAttribute' => ['environment_id' => 'id']],
+            [['repository_url'], 'required']
+
+
         ];
     }
 
@@ -57,6 +58,15 @@ class Deployments extends \yii\db\ActiveRecord
         parent::afterFind();
         $this->solutions = json_decode($this->solutions, true);
         $this->repository_base_path = json_decode($this->repository_base_path, true);
+    }
+
+    public function afterSave($insert, $changedAttributes) {
+        if($insert){
+            $data = static::findOne($this->id);
+            \Yii::$app->rabbitmq->getProducer('JENKINS.CREATE.JOB.PRODUCER')->publish(json_encode($data->attributes), 'ORCHESTRATOR', 'ORCHESTRATOR.JENKINS.CREATE.JOB');
+            unset($data);
+        }
+        parent::afterSave($insert, $changedAttributes);
     }
 
     /**
@@ -69,7 +79,6 @@ class Deployments extends \yii\db\ActiveRecord
             'name' => 'Name',
             'domain' => 'Domain',
             'description' => 'Description',
-            'environment_id' => 'Environment ID',
             'repository_url' => 'Repository Url',
             'repository_base_path' => 'Repository Base Path',
             'dockerfile' => 'Dockerfile',
@@ -82,11 +91,17 @@ class Deployments extends \yii\db\ActiveRecord
         ];
     }
 
+      public function getDeploymentComponents()
+    {
+        return $this->hasMany(DeploymentComponents::className(), ['deployment_id' => 'id']);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEnvironment()
+    public function getDeploymentEnvironments()
     {
-        return $this->hasOne(Environments::className(), ['id' => 'environment_id']);
+        return $this->hasMany(DeploymentEnvironments::className(), ['deployment_id' => 'id']);
     }
+    
 }
