@@ -72,20 +72,19 @@ class Jenkins
     {
         $curl = curl_init($this->baseUrl . '/api/json');
         curl_setopt($curl, \CURLOPT_RETURNTRANSFER, 1);
-        curl_exec($curl);
-
-        if (curl_errno($curl)) {
-            return false;
-        } else {
-            try {
-                $this->getQueue();
-            } catch (RuntimeException $e) {
-                //en cours de lancement de jenkins, on devrait passer par là
-                return false;
-            }
+        curl_setopt($curl, CURLOPT_USERPWD, "{$this->user}:{$this->token}");
+        $headers = array('Content-Type: application/xml','Authorization: basic '.base64_encode("{$this->user}:{$this->token}"));
+        if ($this->areCrumbsEnabled()) {
+            $headers[] = $this->getCrumbHeader();
         }
-
-        return true;
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_HEADER, 1);
+        $response = curl_exec($curl);
+        if (curl_getinfo($curl, CURLINFO_HTTP_CODE) == 200) {
+            return true;
+        } elseif (curl_errno($curl)) {
+            return false;
+        }
     }
 
     /**

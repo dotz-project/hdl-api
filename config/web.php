@@ -89,11 +89,12 @@ $config = [
             'enableStrictParsing' => false,
             'showScriptName' => false,
             'rules' => [
-                'open-link/<id:\d+>' => 'site/open-link',
+                'health' => 'apiv1/health',
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/users','extraPatterns' => ['POST login' => 'login','POST register' => 'register', 'GET me' => 'me', 'GET me2' => 'me2' ]],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/environments', 'pluralize'=>false],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/deployments', 'pluralize'=>false],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/components', 'pluralize'=>false],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/environment-components', 'pluralize'=>false],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/deployment-environment-components', 'pluralize'=>false],
             ],
         ]
@@ -101,7 +102,27 @@ $config = [
     'modules' => [
         'apiv1' => [
             'class' => 'app\modules\apiv1\ApiV1Module',
-        ],
+            'healthchecks' => [
+                'application',
+                'db',
+                'cache',
+                'rabbitmq',
+                'jenkins',
+                'custom' => function() {
+                    return [
+                        'status' => false,
+                        'info' => (object) [],
+                        'error' => 'Deu Errado'   
+                    ];
+
+                    return [
+                        'status' => true,
+                        'info' => (object) [],
+                        'error' => ''   
+                    ];
+                }
+            ]
+        ]
     ],
     'params' => $params,
 ];

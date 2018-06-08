@@ -15,6 +15,7 @@
         public $name;
         public $params;
         public $cloud;
+        public $result;
 
         public function __construct($name, $params) {
             $this->cloud = new ServiceBuilder();
@@ -25,15 +26,19 @@
         }
 
         public function provision() {
-            return $this->_createCluster();
+            
         }
 
         public function available() {
-            $clusterManagerClient = new ClusterManagerClient();
             try {
-                $cluster = $clusterManagerClient->getCluster($this->params['body']['gcProjectName'], $this->params['body']['gcZone'],$this->name);
+                $clusterManagerClient = new ClusterManagerClient();
+                $cluster = $clusterManagerClient->getCluster($this->params['body']['data']['projectName'], $this->params['body']['data']['zone'],$this->name);
                 //echo "Name: " . $cluster->getName() , PHP_EOL;
                 //echo "Status: " . $cluster->getStatus() , PHP_EOL, PHP_EOL;
+                $this->result = [
+                   'name' => $cluster->getName(),   
+                   'status' => $cluster->getStatus()   
+                ];
                 if($cluster->getStatus() == "2"){
                     return true;
                 } else {
@@ -44,18 +49,18 @@
             }
         } 
 
-        private function _createCluster(){
+        public function createCluster(){
             $p = $this->params;
             $clusterManagerClient = new ClusterManagerClient();
             try {
                 $cluster = new Cluster();
                 $cluster->setName($this->name);
-                $cluster->setZone($this->params['body']['gcZone']);
-                $cluster->setDescription($this->params['body']['description']);
-                $cluster->setInitialNodeCount($this->params['body']['gcInitialNodeCount']);
-                $cluster->setNetwork($this->params['body']['gcNetwork']);
-                $cluster->setSubNetwork($this->params['body']['gcSubnetwork']);
-                $operation = $clusterManagerClient->createCluster($this->params['body']['gcProjectName'], $this->params['body']['gcZone'], $cluster);
+                $cluster->setZone(@$this->params['body']['data']['zone']);
+                $cluster->setDescription(@$this->params['body']['data']['description']);
+                $cluster->setInitialNodeCount(@$this->params['body']['data']['initialNodeCount']);
+                $cluster->setNetwork(@$this->params['body']['data']['network']);
+                $cluster->setSubNetwork(@$this->params['body']['data']['subnetwork']);
+                $operation = $clusterManagerClient->createCluster(@$this->params['body']['data']['projectName'], $this->params['body']['data']['zone'], $cluster);
                 $_status_table = [
                     0 => 'STATUS_UNSPECIFIED',
                     1 => 'PENDING',
@@ -75,5 +80,4 @@
                 $clusterManagerClient->close();
             } 
         }
-
     }

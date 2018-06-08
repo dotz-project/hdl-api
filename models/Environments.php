@@ -91,6 +91,11 @@ class Environments extends \yii\db\ActiveRecord
         return $this->hasMany(DeploymentEnvironmentComponents::className(), ['environment_id' => 'id']);
     }
 
+    public function getEnvironmentComponents()
+    {
+        return $this->hasMany(EnvironmentComponents::className(), ['environment_id' => 'id']);
+    }
+
     public function getDeployments()
     {
         return $this->hasMany(Deployments::className(), ['deployment_id' => 'id'])->via('deploymentEnvironmentComponents');
@@ -100,12 +105,5 @@ class Environments extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Users::className(), ['id' => 'owner_id']);
     }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-        if($insert){
-            \Yii::$app->rabbitmq->getProducer('CLUSTER.REQUEST.PRODUCER')->publish(json_encode($this->attributes), 'ORCHESTRATOR', 'ORCHESTRATOR.CLUSTER.REQUEST');
-        }
-        parent::afterSave($insert, $changedAttributes);
-    }
+    
 }

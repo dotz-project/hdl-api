@@ -3,8 +3,6 @@
     //https://customer.cloudkarafka.com/team/api
     class CloudKarafka {
        
-        public $apikey = "85c146d6-2322-4e69-9019-cb51d43ce2da";
-        public $endpoint = "https://customer.cloudkarafka.com/api/instances";
         public $name;
         public $params;
        
@@ -15,12 +13,11 @@
         }
 
         public function provision() {
-            $cluster = $this->_createCluster();
-            return $cluster;
+          
         }
 
         public function available() {
-            $data = json_decode($this->params['_request_'],true);
+            $data = $this->params['body']['_request_'];
             if(!empty($data['id'])){
                 return $data;
             } else {
@@ -28,7 +25,7 @@
             }
         } 
 
-        private function _createCluster(){
+        public function createCluster(){
             $response = static::POST(
                 "{$this->params['conf']['endpoint']}/instances", 
                 [

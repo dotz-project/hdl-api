@@ -6,3 +6,4 @@ yii migrate --migrationPath=vendor/yiisoft/yii2/rbac/migrations/  --interactive=
 yii migrate  --interactive=0
 chmod 777 runtime -Rf
 chmod 777 models -Rf
+#/app/consumers.sh start

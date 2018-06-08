@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c904da2e773c8c89cbd7a5a6230e7619",
+    "content-hash": "c99761b6330496b71a0df2f9b29c9b35",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -906,6 +906,89 @@
             "time": "2017-03-16T15:42:24+00:00"
         },
         {
+            "name": "indigerd/yii2-oauth2-auth-filter",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Indigerd/yii2-oauth2-auth-filter.git",
+                "reference": "782ba4535d4ac2cc1d07c3277001383a4d2cd1ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Indigerd/yii2-oauth2-auth-filter/zipball/782ba4535d4ac2cc1d07c3277001383a4d2cd1ce",
+                "reference": "782ba4535d4ac2cc1d07c3277001383a4d2cd1ce",
+                "shasum": ""
+            },
+            "type": "module",
+            "autoload": {
+                "psr-4": {
+                    "indigerd\\oauth2\\authfilter\\": "src/authfilter"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Stepanenko",
+                    "email": "alex.stepanenko@gmail.com"
+                }
+            ],
+            "description": "Yii2 module to check validity of oauth2 token and scope access in microservices.",
+            "keywords": [
+                "Microservice",
+                "auth",
+                "filter",
+                "oauth2",
+                "oauth2 scopes"
+            ],
+            "time": "2017-02-01T15:08:46+00:00"
+        },
+        {
+            "name": "indigerd/yii2-rest",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Indigerd/yii2-rest.git",
+                "reference": "91d44babf2092c4ac9b216646109cf820fdda435"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Indigerd/yii2-rest/zipball/91d44babf2092c4ac9b216646109cf820fdda435",
+                "reference": "91d44babf2092c4ac9b216646109cf820fdda435",
+                "shasum": ""
+            },
+            "require": {
+                "indigerd/yii2-oauth2-auth-filter": "*",
+                "php": ">=5.5.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "indigerd\\rest\\": "src/rest"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Stepanenko",
+                    "email": "alex.stepanenko@gmail.com"
+                }
+            ],
+            "description": "Package based on yii2 rest with some improvements",
+            "keywords": [
+                "cors",
+                "rest",
+                "yii2"
+            ],
+            "time": "2018-04-19T10:11:55+00:00"
+        },
+        {
             "name": "jenkins-khan/jenkins-api",
             "version": "dev-master",
             "source": {
@@ -1556,6 +1639,50 @@
                 "mailer"
             ],
             "time": "2018-01-23T07:37:21+00:00"
+        },
+        {
+            "name": "templatemonster/healthchecks",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/M0nsterLabs/microservice-health-checks.git",
+                "reference": "2ec03eb13797ef2e6cc6cfdc7418ab01a85ca152"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/M0nsterLabs/microservice-health-checks/zipball/2ec03eb13797ef2e6cc6cfdc7418ab01a85ca152",
+                "reference": "2ec03eb13797ef2e6cc6cfdc7418ab01a85ca152",
+                "shasum": ""
+            },
+            "require": {
+                "indigerd/yii2-rest": "*",
+                "php": ">=5.5.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "templatemonster\\healthchecks\\": "src/healthchecks"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Stepanenko",
+                    "email": "alex.stepanenko@gmail.com"
+                }
+            ],
+            "description": "HTTP and console health checks for microservices",
+            "keywords": [
+                "api",
+                "microservices",
+                "rest",
+                "yii2"
+            ],
+            "time": "2017-01-18T14:38:13+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -4364,7 +4491,8 @@
         "guzzlehttp/guzzle": 20,
         "flow/jsonpath": 20,
         "google/cloud": 20,
-        "jenkins-khan/jenkins-api": 20
+        "jenkins-khan/jenkins-api": 20,
+        "templatemonster/healthchecks": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

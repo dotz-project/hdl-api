@@ -50,10 +50,12 @@ class m180328_130209_init extends Migration
             'owner_id' => $this->integer()
         ], 'ENGINE InnoDB');
         $this->createIndex('idx-environments-name', 'environments', 'name',true);
+        $this->createIndex('idx-environments-alias', 'environments', 'alias',true);
         $this->createIndex('idx-environments-status', 'environments', 'status');
         $this->createIndex('idx-environments-created_at', 'environments', 'created_at');
         $this->addForeignKey('fk-environments-owner_id', 'environments', 'owner_id', 'users', 'id', 'CASCADE');
         
+     
         $this->createTable('components', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
@@ -108,7 +110,21 @@ class m180328_130209_init extends Migration
         $this->addForeignKey('fk-deployment_environment_components-deployment', 'deployment_environment_components', 'deployment_id', 'deployments', 'id', 'CASCADE');
         $this->addForeignKey('fk-deployment_environment_components-environment_id', 'deployment_environment_components', 'environment_id', 'environments', 'id', 'CASCADE');
         $this->addForeignKey('fk-deployment_environment_components-component_id', 'deployment_environment_components', 'component_id', 'components', 'id', 'CASCADE');
-       
+        
+        $this->createTable('environment_components', [
+            'id' => $this->primaryKey(),
+            'environment_id' => $this->integer()->notNull(),
+            'component_id' => $this->integer()->notNull(),
+            'data' => $this->text(),
+            'feedback' => $this->text(),
+            'status' => $this->integer(),
+            'created_at' => $this->dateTime()->notNull(),
+            'updated_at' => $this->dateTime()
+        ], 'ENGINE InnoDB');
+        $this->createIndex('idx-environment_components-environment_id-component_id','environment_components', ['environment_id', 'component_id'], true);
+        $this->addForeignKey('fk-environment_components-environment_id', 'environment_components', 'environment_id', 'environments', 'id', 'CASCADE');
+        $this->addForeignKey('fk-environment_components-component_id', 'environment_components', 'component_id', 'components', 'id', 'CASCADE');
+
 
     }
 

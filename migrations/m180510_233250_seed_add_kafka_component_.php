@@ -11,7 +11,7 @@ class m180510_233250_seed_add_kafka_component_ extends Migration
     {
         $this->insert('components', [
             'id' => 3,
-            'name' => 'Kafka',
+            'name' => 'Karafka',
             'avatar' => 'karafka.png',
             'type' => '3',
             'description' => "Apache Kafka é uma plataforma distribuída de mensagens e streaming.",

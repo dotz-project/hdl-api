@@ -41,7 +41,7 @@ $ docker-compose exec php up.sh
 ## Reinicilização
 
 ```
-$ sudo docker-compose down; rm storage/rabbitmq/* -Rf; sudo docker-compose up -d --force-recreate; sleep 15; sudo docker-compose exec php up.sh
+$ sudo docker-compose down; sudo rm storage/rabbitmq/* -Rf; sudo docker-compose up -d --force-recreate; sleep 15; sudo docker-compose exec php up.sh
 ```
 
 

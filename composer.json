@@ -24,7 +24,8 @@
         "highweb/yii2-ip-ratelimiter": "^1.0",
         "mikemadisonweb/yii2-rabbitmq": "^2.0.0",
         "google/cloud": "dev-master",
-        "jenkins-khan/jenkins-api": "dev-master"
+        "jenkins-khan/jenkins-api": "dev-master",
+        "templatemonster/healthchecks": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

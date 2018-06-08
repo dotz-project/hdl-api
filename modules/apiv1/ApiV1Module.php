@@ -7,6 +7,7 @@ namespace app\modules\apiv1;
  */
 class ApiV1Module extends \yii\base\Module
 {
+    public $healthchecks;
     /**
      * {@inheritdoc}
      */

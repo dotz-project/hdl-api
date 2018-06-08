@@ -1,7 +1,6 @@
 <?php
 
 namespace app\modules\apiv1\controllers;
-
 use yii\web\Controller;
 
 /**
@@ -9,7 +8,7 @@ use yii\web\Controller;
  */
 class DefaultController extends Controller
 {
-    public $layout = false; 
+    public $layout = false;
     /**
      * Displays homepage.
      *

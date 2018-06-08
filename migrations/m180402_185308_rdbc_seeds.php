@@ -102,6 +102,13 @@ class m180402_185308_rdbc_seeds extends Migration
         $this->_createPermission($auth, 'deployment_environment_components.delete', 'delete an existing model',[$admin,$devops]);
         $this->_createPermission($auth, 'deployment_environment_components.options', 'return the allowed HTTP methods',[$admin,$dev,$devops]);
 
+        $this->_createPermission($auth, 'environment_components.index', 'list of models',[$admin,$devops,$dev]);
+        $this->_createPermission($auth, 'environment_components.create', 'create a new model',[$admin,$devops]);
+        $this->_createPermission($auth, 'environment_components.update', 'update an existing model',[$admin,$devops]);
+        $this->_createPermission($auth, 'environment_components.view', 'return the details of a model',[$admin,$devops]);
+        $this->_createPermission($auth, 'environment_components.delete', 'delete an existing model',[$admin,$devops]);
+        $this->_createPermission($auth, 'environment_components.options', 'return the allowed HTTP methods',[$admin,$dev,$devops]);
+     
     }
 
     private function _createPermission(&$auth, $resource, $description, $owners = []){

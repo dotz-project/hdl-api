@@ -20,21 +20,43 @@ start() {
         echo "Use STOP para conseguir iniciar os processos.";
 		exit
 	fi       
+
+	echo "starting KUBERNET.CLUSTER.REQUEST.CONSUMER";
+  /app/yii rabbitmq/consume KUBERNET.CLUSTER.REQUEST.CONSUMER > /tmp/KUBERNET.CLUSTER.REQUEST.CONSUMER.LOG &
+	echo "starting KUBERNET.CLUSTER.PROCESS.CONSUMER";
+  /app/yii rabbitmq/consume KUBERNET.CLUSTER.PROCESS.CONSUMER > /tmp/KUBERNET.CLUSTER.PROCESS.CONSUMER.LOG &
+	
+  echo "starting MONGODBATLAS.CLUSTER.REQUEST.CONSUMER";
+  /app/yii rabbitmq/consume MONGODBATLAS.CLUSTER.REQUEST.CONSUMER > /tmp/MONGODBATLAS.CLUSTER.REQUEST.CONSUMER.LOG &
+	echo "starting MONGODBATLAS.CLUSTER.PROCESS.CONSUMER";
+  /app/yii rabbitmq/consume MONGODBATLAS.CLUSTER.PROCESS.CONSUMER > /tmp/MONGODBATLAS.CLUSTER.PROCESS.CONSUMER.LOG &
+
+  #echo "starting ELASTIC.CLUSTER.REQUEST.CONSUMER";
+  #/app/yii rabbitmq/consume ELASTIC.CLUSTER.REQUEST.CONSUMER > /tmp/ELASTIC.CLUSTER.REQUEST.CONSUMER.LOG &
+	#echo "starting ELASTIC.CLUSTER.PROCESS.CONSUMER";
+  #/app/yii rabbitmq/consume ELASTIC.CLUSTER.PROCESS.CONSUMER > /tmp/ELASTIC.CLUSTER.PROCESS.CONSUMER.LOG &
+	
+	echo "starting AMQP.CLUSTER.REQUEST.CONSUMER";
+  /app/yii rabbitmq/consume AMQP.CLUSTER.REQUEST.CONSUMER > /tmp/AMQP.CLUSTER.REQUEST.CONSUMER.LOG &
+	echo "starting AMQP.CLUSTER.PROCESS.CONSUMER";
+  /app/yii rabbitmq/consume AMQP.CLUSTER.PROCESS.CONSUMER > /tmp/AMQP.CLUSTER.PROCESS.CONSUMER.LOG &
+	
+	echo "starting KARAFKA.CLUSTER.REQUEST.CONSUMER";
+  /app/yii rabbitmq/consume KARAFKA.CLUSTER.REQUEST.CONSUMER > /tmp/KARAFKA.CLUSTER.REQUEST.CONSUMER.LOG &
+	echo "starting KARAFKA.CLUSTER.PROCESS.CONSUMER";
+  /app/yii rabbitmq/consume KARAFKA.CLUSTER.PROCESS.CONSUMER > /tmp/KARAFKA.CLUSTER.PROCESS.CONSUMER.LOG &
 	
 	echo "starting COMPONENTS.REQUEST.CONSUMER";
-	/app/yii rabbitmq/consume COMPONENTS.REQUEST.CONSUMER > /dev/null &
+	/app/yii rabbitmq/consume COMPONENTS.REQUEST.CONSUMER > /tmp/COMPONENTS.REQUEST.CONSUMER.LOG &
 	echo "starting COMPONENTS.PROCESS.CONSUMER";
-  /app/yii rabbitmq/consume COMPONENTS.PROCESS.CONSUMER > /dev/null &
-	echo "starting CLUSTER.REQUEST.CONSUMER";
-  /app/yii rabbitmq/consume CLUSTER.REQUEST.CONSUMER > /dev/null &
-	echo "starting CLUSTER.PROCESS.CONSUMER";
-  /app/yii rabbitmq/consume CLUSTER.PROCESS.CONSUMER > /dev/null &
+  /app/yii rabbitmq/consume COMPONENTS.PROCESS.CONSUMER > /tmp/COMPONENTS.PROCESS.CONSUMER.LOG &
+	
 	echo "starting JENKINS.CREATE.JOB.CONSUMER";
-  /app/yii rabbitmq/consume JENKINS.CREATE.JOB.CONSUMER > /dev/null &
+  /app/yii rabbitmq/consume JENKINS.CREATE.JOB.CONSUMER > /tmp/JENKINS.CREATE.JOB.CONSUMER.LOG &
 	echo "starting JENKINS.BUILD.CONSUMER";
-  /app/yii rabbitmq/consume JENKINS.BUILD.CONSUMER > /dev/null &
+  /app/yii rabbitmq/consume JENKINS.BUILD.CONSUMER > /tmp/JENKINS.BUILD.CONSUMER.LOG &
 	echo "starting JENKINS.BUILD.PROCESS.CONSUMER";
-  /app/yii rabbitmq/consume JENKINS.BUILD.PROCESS.CONSUMER > /dev/null &
+  /app/yii rabbitmq/consume JENKINS.BUILD.PROCESS.CONSUMER > /tmp/JENKINS.BUILD.PROCESS.CONSUMER.LOG &
 
 	RETVAL=$?
         [ $RETVAL = 0 ]

@@ -80,7 +80,7 @@ services:
       JENKINS_USERNAME : user
       JENKINS_PASSWORD : bitnami
       JENKINS_API_KEY : 515420206d19b1be81e602bff016a0bd
-
+    
   memcached:
     image: memcached
     ports:

@@ -12,8 +12,6 @@
         }
 
         public function provision() {
-            $this->_createCluster();
-            $this->_createUser();
         }
 
         public function available() {
@@ -44,8 +42,8 @@
             }
         } 
 
-        private function _createCluster(){
-            $response = static::POST(
+        public function createCluster(){
+            return static::POST(
                 "{$this->params['conf']['endpoint']}/atlas/v1.0/groups/{$this->params['conf']['group']}/clusters",
                 json_encode([
                     "name" => $this->name,
@@ -64,10 +62,9 @@
                 $this->params['conf']['username'],
                 $this->params['conf']['api_key']
             );
-            return $response;
         }
 
-        private function _createUser(){
+        public function createUser(){
              $response = static::POST(
                 "{$this->params['conf']['endpoint']}/atlas/v1.0/groups/{$this->params['conf']['group']}/databaseUsers", 
                 json_encode([
