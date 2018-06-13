@@ -59,7 +59,7 @@ class m180328_130209_init extends Migration
         $this->createTable('components', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
-            'avatar' => $this->string(),
+            'avatar' => $this->text(),
             'type' => $this->string(),
             'description' => $this->text(),
             'keys' => $this->text(),

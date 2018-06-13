@@ -3,7 +3,7 @@
 namespace app\modules\apiv1\controllers;
 
 use yii;
-use app\modules\apiv1\models\Users;
+use app\models\Users;
 use yii\rest\ActiveController;
 use yii\helpers\ArrayHelper;
 use \Firebase\JWT\JWT;
@@ -37,7 +37,8 @@ class UsersController extends ActiveController
     }
 
     public function checkAccess($action, $model = null, $params = []){
-        if (!Yii::$app->user->can("users.{$action}") && !empty(yii::$app->user->id)) 
+        
+        if (!Yii::$app->user->can("api.users.{$action}") && !empty(yii::$app->user->id)) 
             throw new \yii\web\ForbiddenHttpException(sprintf('Você não tem permissão para acessar este recurso.', $action));
         return true;
     }
@@ -98,11 +99,12 @@ class UsersController extends ActiveController
     }
 
     public function actionMe(){
-        
-        //static::checkAccess('me',Users::findIdentity(Yii::$app->user->id),[]);
+       
         $_user = Users::find()->select(['id', 'firstname','lastname','status','created_at','email','avatar','cellphone'])->where(['id'=>Yii::$app->user->id])->one();
         $user = $_user->attributes;
-        $user['ddd'] =  substr(str_replace(" ","",str_replace("(","",str_replace(")","",$_user->cellphone))),0,2);
+        $user['roles'] =  array_keys(\Yii::$app->authManager->getRolesByUser($_user->id));
+        $user['permissions'] =  array_keys(\Yii::$app->authManager->getPermissionsByUser($_user->id));
+        //$user['assignments'] =  (\Yii::$app->authManager->getAssignments($_user->id));
         return $user;
     }
 

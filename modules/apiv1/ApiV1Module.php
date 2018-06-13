@@ -21,11 +21,18 @@ class ApiV1Module extends \yii\base\Module
         parent::init();
 
         header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Headers: Authorization, Content-Type");
+        header("Access-Control-Allow-Credentials: true");
+        header("Access-Control-Allow-Headers: authorization, Authorization, Content-Type");
         header("Access-Control-Request-Method: POST, PUT, GET, PATCH, DELETE, OPTIONS, HEAD");
         header("Access-Control-Expose-Headers: X-Pagination-Current-Page, X-Pagination-Page-Count, X-Pagination-Per-Page, X-Pagination-Total-Count, X-Rate-Limit-Limit, X-Rate-Limit-Remaining, X-Rate-Limit-Reset");
         header("Accept-Encoding: gzip,compress");
        
+        if(\Yii::$app->request->isOptions){
+            \Yii::$app->response->statusCode = 200;
+            \Yii::$app->response->statusText = "OK";
+            \Yii::$app->end();
+        }
+
         \Yii::$app->user->enableSession = false;
         \Yii::$app->user->loginUrl  = null;
         \Yii::$app->user->identityClass = 'app\models\Users';

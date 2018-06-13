@@ -41,7 +41,7 @@ class EnvironmentsController extends ActiveController
     }
 
     public function checkAccess($action, $model = null, $params = []){
-        if (!Yii::$app->user->can("environments.{$action}") && !empty(yii::$app->user->id)) 
+        if (!Yii::$app->user->can("api.environments.{$action}") && !empty(yii::$app->user->id)) 
             throw new \yii\web\ForbiddenHttpException(sprintf('Você não tem permissão para acessar este recurso.', $action));
         return true;
     }

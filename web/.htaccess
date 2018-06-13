@@ -6,7 +6,7 @@
         RewriteRule . index.php
 </IfModule>
 <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Origin "http://localhost:8001"
 </IfModule>
 
 SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
