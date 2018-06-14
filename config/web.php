@@ -23,6 +23,9 @@ $config = [
                 'application/json' => 'yii\web\JsonParser',
             ]
         ],
+        'formatter' => [
+            'class' => '\app\components\Formatter'
+        ],
 
         'rabbitmq' => $rabbitmq,
 
@@ -91,11 +94,13 @@ $config = [
             'rules' => [
                 'health' => 'apiv1/health',
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/users','extraPatterns' => ['POST login' => 'login','POST register' => 'register', 'GET me' => 'me', 'GET me2' => 'me2' ]],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/environments', 'pluralize'=>false],
+                //['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/environments', 'pluralize'=>false],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/deployments', 'pluralize'=>false],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/components', 'pluralize'=>false],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/environment-components', 'pluralize'=>false],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/deployment-environment-components', 'pluralize'=>false],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'apiv1/environments', 'pluralize'=>false, 'tokens' => ['{id}' => '<id:\\w+-\\w+-\\w+-\\w+-\\w+>']],
+            
             ],
         ]
     ],

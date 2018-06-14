@@ -25,8 +25,8 @@
         "mikemadisonweb/yii2-rabbitmq": "^2.0.0",
         "google/cloud": "dev-master",
         "jenkins-khan/jenkins-api": "dev-master",
-        "templatemonster/healthchecks": "dev-master"
-    },
+        "ramsey/uuid": "^3.0@dev"
+      },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
         "yiisoft/yii2-gii": "~2.0.0",

@@ -104,7 +104,7 @@ $ docker-compose down
 9. Mysql
 
 ```
-mysql -uysk_dbu -pysk_pass
+mysql -h db -uorchestrator_user -porchestrator_pass --database=orchestrator
 ```
 
 10. Iniciar, parar, reiniciar e consultar status dos consumidores

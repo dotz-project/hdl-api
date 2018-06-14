@@ -30,7 +30,7 @@ class m180328_130209_init extends Migration
         $this->createIndex('idx-users-created_at', 'users', 'created_at');
 
         $this->createTable('environments', [
-            'id' => $this->primaryKey(),
+            'id' => $this->string()->notNull()->unique(),
             'alias' => $this->string()->notNull()->unique(),
             'name' => $this->string()->notNull()->unique(),
             'avatar' => $this->string(),
@@ -49,15 +49,18 @@ class m180328_130209_init extends Migration
             'created_at' => $this->dateTime()->notNull(),
             'owner_id' => $this->integer()
         ], 'ENGINE InnoDB');
+        
+        $this->createIndex('idx-environments-id', 'environments', 'id',true);
         $this->createIndex('idx-environments-name', 'environments', 'name',true);
         $this->createIndex('idx-environments-alias', 'environments', 'alias',true);
         $this->createIndex('idx-environments-status', 'environments', 'status');
         $this->createIndex('idx-environments-created_at', 'environments', 'created_at');
+       
         $this->addForeignKey('fk-environments-owner_id', 'environments', 'owner_id', 'users', 'id', 'CASCADE');
         
      
         $this->createTable('components', [
-            'id' => $this->primaryKey(),
+            'id' => $this->string()->notNull()->unique(),
             'name' => $this->string()->notNull(),
             'avatar' => $this->text(),
             'type' => $this->string(),
@@ -70,12 +73,13 @@ class m180328_130209_init extends Migration
             'created_at' => $this->dateTime()->notNull()
         ], 'ENGINE InnoDB');        
 
+        $this->createIndex('idx-components-id', 'components', 'id', true);
         $this->createIndex('idx-components-name', 'components', 'name');
         $this->createIndex('idx-components-status', 'components', 'status');
         $this->createIndex('idx-components-created_at', 'components', 'created_at');
         
         $this->createTable('deployments', [
-            'id' => $this->primaryKey(),
+            'id' => $this->string()->notNull()->unique(),
             'name' => $this->string(),
             'description' => $this->text(),
             'domain' => $this->text(),
@@ -91,36 +95,39 @@ class m180328_130209_init extends Migration
             'updated_at' => $this->dateTime()
         ], 'ENGINE InnoDB');        
         
+        $this->createIndex('idx-deployments-id', 'deployments', 'id', true);
         $this->createIndex('idx-deployments-name', 'deployments', 'name', true);
         $this->createIndex('idx-deployments-status', 'deployments', 'status');
         $this->createIndex('idx-deployments-created_at', 'deployments', 'created_at');
         
         $this->createTable('deployment_environment_components', [
-            'id' => $this->primaryKey(),
-            'environment_id' => $this->integer()->notNull(),
-            'deployment_id' => $this->integer()->notNull(),
-            'component_id' => $this->integer()->notNull(),
+            'id' => $this->string()->notNull(),
+            'environment_id' => $this->string()->notNull(),
+            'deployment_id' => $this->string()->notNull(),
+            'component_id' => $this->string()->notNull(),
             'data' => $this->text(),
             'feedback' => $this->text(),
             'status' => $this->integer(),
             'created_at' => $this->dateTime()->notNull(),
             'updated_at' => $this->dateTime()
         ], 'ENGINE InnoDB');
-
+        
+        $this->createIndex('idx-deployment_environment_components','deployment_environment_components', ['deployment_id','environment_id','component_id'], true);
         $this->addForeignKey('fk-deployment_environment_components-deployment', 'deployment_environment_components', 'deployment_id', 'deployments', 'id', 'CASCADE');
         $this->addForeignKey('fk-deployment_environment_components-environment_id', 'deployment_environment_components', 'environment_id', 'environments', 'id', 'CASCADE');
         $this->addForeignKey('fk-deployment_environment_components-component_id', 'deployment_environment_components', 'component_id', 'components', 'id', 'CASCADE');
         
         $this->createTable('environment_components', [
-            'id' => $this->primaryKey(),
-            'environment_id' => $this->integer()->notNull(),
-            'component_id' => $this->integer()->notNull(),
+            'id' => $this->string()->notNull()->unique(),
+            'environment_id' => $this->string()->notNull(),
+            'component_id' => $this->string()->notNull(),
             'data' => $this->text(),
             'feedback' => $this->text(),
             'status' => $this->integer(),
             'created_at' => $this->dateTime()->notNull(),
             'updated_at' => $this->dateTime()
         ], 'ENGINE InnoDB');
+        $this->createIndex('idx-environment_components-environment_id-id','environment_components', 'id', true);
         $this->createIndex('idx-environment_components-environment_id-component_id','environment_components', ['environment_id', 'component_id'], true);
         $this->addForeignKey('fk-environment_components-environment_id', 'environment_components', 'environment_id', 'environments', 'id', 'CASCADE');
         $this->addForeignKey('fk-environment_components-component_id', 'environment_components', 'component_id', 'components', 'id', 'CASCADE');

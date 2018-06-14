@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use Ramsey\Uuid\Uuid;
+use app\db\ActiveRecord;
 use Yii;
 
 /**
@@ -28,7 +30,8 @@ use Yii;
  * @property Deployments[] $deployments
  * @property Users $owner
  */
-class Environments extends \yii\db\ActiveRecord
+//class Environments extends \yii\db\ActiveRecord
+class Environments extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -44,6 +47,7 @@ class Environments extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+           // [['id'],      'filter',  'filter' => function($value){ return Uuid::uuid4(); }, 'when'=>function($model) { return $model->isNewRecord; }],
             [['created_at'],    'filter',  'filter' => function($value){ return date('Y-m-d H:i:s'); } , 'when'=>function($model) { return $model->isNewRecord; } ],
             [['status'],        'filter',  'filter' => function($value){ return '0'; }, 'when'=>function($model) { return $model->isNewRecord; }],
             [['owner_id'],      'filter',  'filter' => function($value){ return \Yii::$app->user->id; }, 'when'=>function($model) { return $model->isNewRecord; }],
@@ -82,6 +86,12 @@ class Environments extends \yii\db\ActiveRecord
         ];
     }
 
+    public function afterFind(){
+        parent::afterFind();
+        
+    }
+
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -105,5 +115,7 @@ class Environments extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Users::className(), ['id' => 'owner_id']);
     }
+
+
     
 }

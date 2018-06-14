@@ -1,6 +1,9 @@
 <?php
 
 namespace app\models;
+use Ramsey\Uuid\Uuid;
+use app\db\ActiveRecord;
+
 
 use Yii;
 
@@ -23,7 +26,7 @@ use Yii;
  * @property Environments[] $environments
  * @property DeploymentEnvironmentComponents[] $deploymentEnvironmentComponents
  */
-class Components extends \yii\db\ActiveRecord
+class Components extends ActiveRecord
 {
     /**
      * {@inheritdoc}

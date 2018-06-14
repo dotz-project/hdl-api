@@ -1,7 +1,8 @@
 <?php
 
 namespace app\models;
-
+use Ramsey\Uuid\Uuid;
+use app\db\ActiveRecord;
 use Yii;
 
 /**
@@ -19,7 +20,7 @@ use Yii;
  * @property Components $component
  * @property Environments $environment
  */
-class EnvironmentComponents extends \yii\db\ActiveRecord
+class EnvironmentComponents extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -41,7 +42,7 @@ class EnvironmentComponents extends \yii\db\ActiveRecord
             [['data','feedback'], 'filter',  'filter' => function($value){ return json_encode($value); }],
          
             [['environment_id', 'component_id', 'created_at'], 'required'],
-            [['environment_id', 'component_id', 'status'], 'integer'],
+            [['status'], 'integer'],
             [['data', 'feedback'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['component_id'], 'exist', 'skipOnError' => true, 'targetClass' => Components::className(), 'targetAttribute' => ['component_id' => 'id']],

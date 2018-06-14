@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use Ramsey\Uuid\Uuid;
 
 use Yii;
 

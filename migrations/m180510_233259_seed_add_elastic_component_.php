@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Migration;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class m180510_233255_seed_add_ampq_component_
@@ -11,7 +12,7 @@ class m180510_233259_seed_add_elastic_component_ extends Migration
     {
         //https://www.elastic.co/blog/exploring-the-api-for-elastic-cloud-enterprise
         $this->insert('components', [
-            'id' => 5,
+            'id' => Uuid::uuid4(),
             'name' => 'ELASTIC',
             'avatar' => 'elastic.png',
             'type' => '3',

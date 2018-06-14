@@ -104,7 +104,6 @@ class UsersController extends ActiveController
         $user = $_user->attributes;
         $user['roles'] =  array_keys(\Yii::$app->authManager->getRolesByUser($_user->id));
         $user['permissions'] =  array_keys(\Yii::$app->authManager->getPermissionsByUser($_user->id));
-        //$user['assignments'] =  (\Yii::$app->authManager->getAssignments($_user->id));
         return $user;
     }
 

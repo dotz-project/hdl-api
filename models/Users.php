@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\web\IdentityInterface;
 use \Firebase\JWT\JWT;
+use Ramsey\Uuid\Uuid;
 
 /**
  * This is the model class for table "users".
